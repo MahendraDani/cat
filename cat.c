@@ -8,10 +8,16 @@ Date : 13.03.2025
 #include <string.h>
 
 int main(int argc, char* argv[]){
-  if(argc==1){
-    // TODO : read from std inp and print
-    printf("Todo\n");
+  if(argc==1 || (argc == 2 && strcmp(argv[1],"-")==0)){
+    FILE* fd = stdin;
+    char buffer[1024];
+
+    while(fgets(buffer,sizeof(buffer),fd)!=NULL){
+      printf("%s",buffer);
+    }
+    return 0;
   }else if(argc == 2){
+    printf("%s",argv[1]);
     char* file_path = argv[1];
     FILE* fd = fopen(file_path,"r");
 
