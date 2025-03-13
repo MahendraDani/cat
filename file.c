@@ -15,13 +15,21 @@ int validate_path(const char* path){
   return 0;
 }
 
-void cat_file(FILE *fd, int show_line_count){
+void cat_file(FILE *fd, flags* flag){
   char buffer[1024];
   int line_count = 0;
 
   while(fgets(buffer,sizeof(buffer),fd)){
-    if(show_line_count){
+    char *trimmed = buffer + strspn(buffer, " \t\n");
+
+    if(flag->FLAG_N!=0){
       printf("%d  %s",++line_count,buffer);
+    }else if(flag->FLAG_B !=0){
+      if (*trimmed != '\0') {  
+        printf("%d  %s", ++line_count, buffer);
+      } else {
+        printf("%s", buffer); 
+      }
     }else{
       printf("%s",buffer);
     }

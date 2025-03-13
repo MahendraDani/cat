@@ -10,3 +10,16 @@ cat file1.txt file2.txt -
 
 TODO:
 The original cat commands requires all flags before the arguments, whereas the current implementation allows flags to be after the arguments.
+
+Flag handling:
+Case 1 : ./cat file.txt
+
+Case 2 : ./cat -n [files]
+
+Case 3 : ./cat -b [files]
+
+Case 4 : ./cat [files] -n
+print all files then print -> cat : -n: No such file or directory
+
+Case 4 : ./cat [files] -n
+print all files then print -> cat : -b: No such file or directory

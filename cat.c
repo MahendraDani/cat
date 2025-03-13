@@ -7,10 +7,15 @@ Date : 13.03.2025
 int main(int argc, char* argv[]){
 
   // TODO : handle flags (no flag), -n or -b
-  int show_line_count = 0; // true if -n in argv
+  flags flag = {1,0,0};
   for(int i=1;i<argc;i++){
-    if(strcmp(argv[i],"-n")==0)
-      show_line_count = 1;
+    if(strcmp(argv[i],"-n")==0){
+      flag.FLAG_N = 1;
+    }else if(strcmp(argv[i],"-b")==0){
+      flag.FLAG_B = 1;
+    }else {
+      break;
+    }
   }
 
   for(int i=1;i<argc;i++){
@@ -21,8 +26,19 @@ int main(int argc, char* argv[]){
       // Read from stdin
       fd = stdin;
     }else if(strcmp(path,"-n")==0){
-      // for flag -n
-      continue;
+      if(i==argc-1){
+        // $ cmd | ./cat -n
+        fd = stdin;
+      }else{
+        continue;
+      }
+    }else if(strcmp(path,"-b")==0){
+      if(i==argc-1){
+        // $ cmd | ./cat -b
+        fd = stdin;
+      }else{
+        continue;
+      }
     }else{
       if(validate_path(path)!=0)
         return EXIT_FAILURE;
@@ -36,7 +52,7 @@ int main(int argc, char* argv[]){
       return EXIT_FAILURE;
     }
 
-    cat_file(fd,show_line_count);
+    cat_file(fd,&flag);
 
     if(fd != stdin){
       fclose(fd);
