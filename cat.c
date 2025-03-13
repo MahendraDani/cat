@@ -2,42 +2,33 @@
 cat - a UNIX command line utility program to concatenate and print files
 Date : 13.03.2025
 */
-#include <stdio.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <string.h>
+#include "file.h"
 
 int main(int argc, char* argv[]){
-  if(argc==1 || (argc == 2 && strcmp(argv[1],"-")==0)){
-    FILE* fd = stdin;
-    char buffer[1024];
+  for(int i=1;i<argc;i++){
+    const char* path = argv[i];
 
-    while(fgets(buffer,sizeof(buffer),fd)!=NULL){
-      printf("%s",buffer);
-    }
-    return 0;
-  }else if(argc == 2){
-    printf("%s",argv[1]);
-    char* file_path = argv[1];
-    FILE* fd = fopen(file_path,"r");
-
-    struct stat path_stat;
-    if(stat(file_path,&path_stat)==-1){
-      fprintf(stderr,"cat: %s\n", strerror(errno));
-      return 1;
+    FILE* fd;
+    if(strcmp(path,"-")==0){
+      // Read from stdin
+      fd = stdin;
+    }else{
+      if(validate_path(path)!=0)
+        return EXIT_FAILURE;
+      
+      // Read from path
+      fd = fopen(path,"r");
     }
 
-    if(S_ISDIR(path_stat.st_mode)){
-      fprintf(stderr,"cat: %s: Is a directory\n",file_path);
-      return 1;
+    if(fd == NULL){
+      fprintf(stderr,"cat: %s: unexpected error",path);
+      return EXIT_FAILURE;
     }
 
-    char buffer[1024];
+    cat_file(fd);
 
-    while(fgets(buffer,sizeof(buffer),fd)!=NULL){
-      printf("%s",buffer);
+    if(fd != stdin){
+      fclose(fd);
     }
-    fclose(fd);
   }
-  return 0;
 }
