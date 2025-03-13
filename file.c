@@ -15,10 +15,15 @@ int validate_path(const char* path){
   return 0;
 }
 
-void cat_file(FILE *fd){
+void cat_file(FILE *fd, int show_line_count){
   char buffer[1024];
+  int line_count = 0;
 
   while(fgets(buffer,sizeof(buffer),fd)){
-    printf("%s",buffer);
+    if(show_line_count){
+      printf("%d  %s",++line_count,buffer);
+    }else{
+      printf("%s",buffer);
+    }
   }
 }

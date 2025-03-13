@@ -7,3 +7,6 @@ cat -
 cat file1.txt -
 cat file1.txt - file2.txt
 cat file1.txt file2.txt -
+
+TODO:
+The original cat commands requires all flags before the arguments, whereas the current implementation allows flags to be after the arguments.

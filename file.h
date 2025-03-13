@@ -9,6 +9,6 @@
 #include <errno.h>
 
 int validate_path(const char* path);
-void cat_file(FILE *fd);
+void cat_file(FILE *fd, int show_line_count);
 
 #endif
