@@ -23,10 +23,10 @@ void cat_file(FILE *fd, config* the_config){
     char *trimmed = buffer + strspn(buffer, " \t\n");
 
     if(the_config->FLAG_N!=0){
-      printf("%d  %s",++line_count,buffer);
+      printf("%6d\t%s",++line_count,buffer);
     }else if(the_config->FLAG_B !=0){
       if (*trimmed != '\0') {  
-        printf("%d  %s", ++line_count, buffer);
+        printf("%6d\t%s", ++line_count, buffer);
       } else {
         printf("%s", buffer); 
       }
