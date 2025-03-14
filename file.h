@@ -8,13 +8,14 @@
 #include <stdlib.h>
 #include <errno.h>
 
-typedef struct flags{
+typedef struct config {
+  const char* path;
   int FLAG_NO;
   int FLAG_N;
   int FLAG_B;
-} flags;
+} config;
 
-int validate_path(const char* path);
-void cat_file(FILE *fd, flags* flag);
+int validate_path(config* the_config);
+void cat_file(FILE *fd, config* the_config);
 
 #endif

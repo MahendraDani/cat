@@ -6,8 +6,19 @@ Date : 13.03.2025
 
 int main(int argc, char* argv[]){
 
-  // TODO : handle flags (no flag), -n or -b
-  flags flag = {1,0,0};
+	config flag = {
+		.FLAG_NO = 1,
+		.FLAG_N = 0,
+		.FLAG_B = 0,
+	};
+
+	if(argc == 1){
+		FILE* fd = stdin;
+		cat_file(fd,&flag);
+		return 0;
+	}
+
+
   for(int i=1;i<argc;i++){
     if(strcmp(argv[i],"-n")==0){
       flag.FLAG_N = 1;
@@ -20,30 +31,31 @@ int main(int argc, char* argv[]){
 
   for(int i=1;i<argc;i++){
     const char* path = argv[i];
-
+		config the_config = {
+			.path = path,
+			.FLAG_NO = flag.FLAG_NO,
+			.FLAG_N = flag.FLAG_N,
+			.FLAG_B = flag.FLAG_B
+		};
     FILE* fd;
     if(strcmp(path,"-")==0){
-      // Read from stdin
       fd = stdin;
     }else if(strcmp(path,"-n")==0){
       if(i==argc-1){
-        // $ cmd | ./cat -n
         fd = stdin;
       }else{
         continue;
       }
     }else if(strcmp(path,"-b")==0){
       if(i==argc-1){
-        // $ cmd | ./cat -b
         fd = stdin;
       }else{
         continue;
       }
     }else{
-      if(validate_path(path)!=0)
+      if(validate_path(&the_config)!=0)
         return EXIT_FAILURE;
       
-      // Read from path
       fd = fopen(path,"r");
     }
 
@@ -52,7 +64,7 @@ int main(int argc, char* argv[]){
       return EXIT_FAILURE;
     }
 
-    cat_file(fd,&flag);
+    cat_file(fd, &the_config);
 
     if(fd != stdin){
       fclose(fd);
