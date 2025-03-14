@@ -16,6 +16,9 @@ $(BIN_DIR):
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+test:
+	tests/run-tests.sh
+
 clean:
 	rm -rf $(OBJ) $(TARGET) $(BIN_DIR)
 
