@@ -1,6 +1,6 @@
 CAT=../bin/cat
-DATA_TEST1=data/test.txt
-DATA_TEST2=data/test2.txt
+DATA_TEST1=../data/test.txt
+DATA_TEST2=../data/test2.txt
 
 test_program_exists(){
   if ! test -f "$CAT"; then
