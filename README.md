@@ -23,7 +23,7 @@ brew install make
 
 1. Clone the project on your machine.
 ```
-git clone https://github.com/Proxihox/Write-your-own-Cat-tool.git
+https://github.com/MahendraDani/cat.git
 ```
 
 2. Build from source 
